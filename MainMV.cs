@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Navigation;
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+
 
 namespace ExchangeRate
 {
@@ -21,18 +25,18 @@ namespace ExchangeRate
             }
         }
 
-        private string[] _qtyConnection = new string[] { "1", "5", "10", "15", "20", "25" };
+        private string[] _qtyConnection = new string[] { "1", "5", "10", "15", "20", "25","30","40" };
         private string[] _qtyQueries = new string[] { "25", "50", "75", "100" };
         private string _selected_qtyConnection;
         private string _selected_qtyQueries;
-        private string _remoteEPAdress;
-        private string _remoteEPPort;
-        private string _remoteEPState;
+        private  string _remoteEPAdress;
         private bool _isCheked;
         public ICommand start { get; set; }
+        public ICommand GetLogs { get; set; }
         public MainMV()
         {
             start = new CommandStart(this);
+            GetLogs= new GetLogsCommand(this);  
         }
         public bool IsCheked
         {
@@ -46,7 +50,7 @@ namespace ExchangeRate
                 OnPropertyChanged(nameof(IsCheked));
             }
         }
-        public string RemoteEPAdress
+        public  string RemoteEPAdress
         {
             get
             {
@@ -56,30 +60,6 @@ namespace ExchangeRate
             {
                 _remoteEPAdress = value;
                 OnPropertyChanged(nameof(RemoteEPAdress));
-            }
-        }
-        public string RemoteEPPort
-        {
-            get
-            {
-                return _remoteEPPort;
-            }
-            set
-            {
-                _remoteEPPort = value;
-                OnPropertyChanged(nameof(RemoteEPPort));
-            }
-        }
-        public string RemoteEPState
-        {
-            get
-            {
-                return _remoteEPState;
-            }
-            set
-            {
-                _remoteEPState= value;
-                OnPropertyChanged(nameof(RemoteEPState));
             }
         }
         public string Selected_qtyConnection

@@ -11,10 +11,4 @@
     <PackageReference Include="MaterialDesignThemes" Version="4.7.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="TCP_ServerLib">
-      <HintPath>..\TCP_ServerLib\bin\Debug\net6.0\TCP_ServerLib.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

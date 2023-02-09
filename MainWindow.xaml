@@ -21,7 +21,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ContentControl Content="{Binding mv}"/>
-        <Border>
+        <Border Margin="20">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -37,6 +37,10 @@
                  Content="Start" Width="50" IsChecked="{Binding IsCheked,Mode=TwoWay}"
                  Style="{StaticResource MaterialDesignActionAccentToggleButton}"
                 ToolTip="MaterialDesignActionAccentToggleButton" Command="{Binding start, Mode=TwoWay}"/>
+                <ToggleButton  Grid.Row="3" Grid.Column="1"
+                 Content="Logs" Width="50"
+                 Style="{StaticResource MaterialDesignActionAccentToggleButton}"
+                ToolTip="MaterialDesignActionAccentToggleButton" Command="{Binding GetLogs, Mode=TwoWay}"/>
                 <ComboBox Grid.Column="1" x:Name="cbQtyClient" ItemsSource="{Binding QtyConnection,Mode=TwoWay}" 
                           SelectedValue="{Binding Selected_qtyConnection,Mode=TwoWay}"/>
                 <ComboBox Grid.Column="1" Grid.Row="1"  x:Name="cbQtyQuery" ItemsSource="{Binding QtyQueries,Mode=TwoWay}"
@@ -45,7 +49,7 @@
                 <Label  Grid.Row="1"  Content="Maximum amount of queries" VerticalAlignment="Center"/>
             </Grid>
         </Border>
-        <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding RemoteEPAdress, Mode=TwoWay}"> 
-        </TextBox>
+        <TextBlock Grid.Column="1"  Text="{Binding RemoteEPAdress, Mode=TwoWay}" TextWrapping="Wrap" Margin="20"> 
+        </TextBlock>
     </Grid>
 </Window>

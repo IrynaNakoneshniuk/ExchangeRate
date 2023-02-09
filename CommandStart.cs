@@ -6,8 +6,13 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
-using TCP_ServerLib;
+
+// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+
 
 namespace ExchangeRate
 {
@@ -26,42 +31,24 @@ namespace ExchangeRate
 
         public async void Execute(object? parameter)
         {
-            int count = 0;
-            ServerConnection.AmountConnections = Convert.ToInt32(mainMV.Selected_qtyConnection);
-            ServerConnection.StartServer();
-            while (true)
+            try
             {
-               await Task.Run(async () =>
+                ServerConnection.StartServer();
+                ServerConnection.MaxAmountConnections = Convert.ToInt32(mainMV.Selected_qtyConnection);
+                ServerConnection.AmountQueries = Convert.ToInt32(mainMV.Selected_qtyQueries);
+                while (mainMV.IsCheked)
                 {
-                    Rate rate = new Rate();
-                    TcpClient tcpClient = await ServerConnection.GetClientAsync();
-                    NetworkStream network = tcpClient.GetStream();
-                    string[] res = await ServerConnection.ReadMsgAsync(network);
-                    var map = (from i in Authentification.SinIn
-                               where i.Key == res[0] && i.Value == res[1]
-                               select i).FirstOrDefault();
-                    if (map.Value != null)
-                    {
-                        while (mainMV.IsCheked)
-                        {
-                            string[] Currency = await ServerConnection.ReadMsgAsync(network);
-                            double rates = (from i in rate.Rates
-                                            where i.Key == Currency[0]
-                                            select i.Value).FirstOrDefault();
-                            ServerConnection.WriteMsgAsync(rate.ToString(), Convert.ToInt32(mainMV.Selected_qtyQueries), count);
-                            count++;
-                        }
-                    }
-                    else
-                    {
-                        await ServerConnection.WriteErrAuthent(network, tcpClient);
-                    }
-                });
-                await Task.Run(() =>
-                {
-                    mainMV.RemoteEPAdress += ServerConnection.GetLogsOfConnection();
-                    mainMV.RemoteEPAdress += "\n";
-                });
+                    await Task.Run(async () => await ServerConnection.WriteMsgAsync());
+                  
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                ServerConnection.ServerStop();
             }
         }
     }
